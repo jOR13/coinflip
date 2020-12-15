@@ -1,25 +1,26 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import axios from "axios"
 function Juegos(props) {
-  const [juegos, setJuegos] = React.useState([
-    {
-      amount: 55,
-      player1: {
-        name: "John",
-        side: "Cara",
-        photo: "",
-      },
-      player2: {
-        name: "Lola",
-        side: "Aguila",
-        photo: "",
-      },
-    },
-  ]);
+  const [juegos, setJuegos] = React.useState();
+
+  useEffect(() => {
+    obtenerJuegos();
+  });
+
+  const obtenerJuegos = async () => {
+    try {
+      const url = "http://localhost:1337/juegos";
+      const response = await axios.get(url);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <>
-      {juegos.map((j) => (
+      {/* {juegos.map((j) => (
         <table
           style={{
             display: "table",
@@ -33,7 +34,7 @@ function Juegos(props) {
         >
           <tr>
             <th>{j.player1.name}</th>
-            <th>Apuesta: <br/>{j.amount}</th>
+            <th>Apuesta: <br />{j.amount}</th>
             <th>{j.player2.name}</th>
           </tr>
           <tr>
@@ -54,7 +55,7 @@ function Juegos(props) {
             <td>{j.player2.side}</td>
           </tr>
         </table>
-      ))}
+      ))} */}
     </>
   );
 }
