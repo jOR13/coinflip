@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 
 function CrearJuego(props) {
+  //context user
+  const { userLog, setUserLog } = useContext(UserContext);
   const [juego, setJuego] = useState({});
   const { player1, ladoPlayer1, player2, ladoPlayer2, ganador, monto } = juego;
   let history = useHistory();
@@ -20,15 +22,17 @@ function CrearJuego(props) {
   const registrarJuego = async (e) => {
     e.preventDefault();
 
+    console.log(userLog);
+
     try {
       const url = "http://localhost:1337/juegos";
       const data = {
         player1: userLog.username,
-        ladoPlayer1,
-        player2,
-        ladoPlayer2,
-        ganador,
-        monto,
+        ladoPlayer1: ladoPlayer1,
+        player2: "",
+        ladoPlayer2: "",
+        ganador: "",
+        monto: monto,
       };
       const response = await axios.post(url, data, {
         headers: {
@@ -48,7 +52,7 @@ function CrearJuego(props) {
         progress: undefined,
       });
 
-      history.push("/dashboard");
+      history.push("/juegos");
     } catch (error) {
       console.log(error);
       toast.error("Revise que sus datos sean correctos", {
@@ -63,7 +67,6 @@ function CrearJuego(props) {
     }
   };
 
-  const { userLog, setUserLog } = useContext(UserContext);
 
   return (
     <>
@@ -71,7 +74,6 @@ function CrearJuego(props) {
       <div className="row">
         <div className="col-6" style={{ marginLeft: 30, marginTop: 30 }}>
           <form onSubmit={(e) => registrarJuego(e)}>
-            
             <div className="form-group">
               <label>Cantidad</label>
               <input
@@ -89,7 +91,11 @@ function CrearJuego(props) {
 
             <div className="form-group">
               <label>Lado:</label> {"   "}
-              <select name="ladoPlayer1" value={ladoPlayer1} onChange={onChangeProyecto}>
+              <select
+                name="ladoPlayer1"
+                value={ladoPlayer1}
+                onChange={onChangeProyecto}
+              >
                 <option value=""></option>
                 <option value="Cara">Cara</option>
                 <option value="Cruz">Cruz</option>

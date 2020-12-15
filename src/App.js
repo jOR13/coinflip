@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Juegos from "./components/Juegos";
 import CrearJuego from "./components/CrearJuego";
 import { UserContext } from "./context/UserContext";
-import Login from "./components/Login";
+import Login from "./components/Login"; 
+import Registrar from "./components/Registrar"; 
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -60,67 +61,94 @@ export default function App() {
   const classes = useStyles();
 
   if (userLog != null) {
-    console.log(userLog.image[0].formats.small.url);
-   
+    console.log(userLog.image[0].formats.thumbnail.url);
   }
-
 
   return (
     <>
       <Router>
-        <div>
-          <nav className="navbar navbar-dark bg-dark">
-            <div style={{ height: "50px" }}>
-              <Link className="ml-4 mr-4" to="/login">
-                Iniciar sesion
-              </Link>
-              <Link className="ml-4 mr-4" to="/">
-                Juegos
-              </Link>
-              <Link className="ml-4 mr-4" to="/crear-juego">
-                Crear juego
-              </Link>
-              <Link className="ml-4 mr-4" to="/dashboard">
-                Dashboard
-              </Link>
-              <div Style={{color: "#fff", textAlign: "center"}}>
-                {userLog != null ? (
-                  <div className={classes.root}  style={{  marginLeft: "1650px", marginTop: -26  }}>
-                    <StyledBadge
-                      overlap="circle"
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                      }}
-                      variant="dot"
-                    >
-                      <Avatar
-                        alt={userLog.fullName}
-                        src={
-                          "http://localhost:1337" +
-                          userLog.image[0].formats.small.url
-                        }
-                        title={userLog.fullName}
-                      />
-                      </StyledBadge> <b Style={{color: "#fff", textAlign: "center"}}>{userLog.fullName}</b>
-
-                    
-                    <Badge
-                      overlap="circle"
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                      }}
-                    ></Badge>
+        <div className="justifyContent-center" >
+          <div className="row">
+            <div className="col-md-12 ">
+              <nav className="navbar navbar-dark bg-dark">
+                <div style={{ height: "50px", width: "100%" }}>
+                  <Link
+                    className="ml-4 mr-4 "
+                    style={{ verticalAlign: "middle" }}
+                    to="/login"
+                  >
+                    Iniciar sesion
+                  </Link>
+                  <Link
+                    className="ml-4 mr-4"
+                    style={{ verticalAlign: "middle" }}
+                    style={{ verticalAlign: "middle" }}
+                    to="/juegos"
+                  >
+                    Juegos
+                  </Link>
+                  <Link
+                    className="ml-4 mr-4"
+                    style={{ verticalAlign: "middle" }}
+                    to="/crear-juego"
+                  >
+                    Crear juego
+                  </Link>
+                  <Link
+                    className="ml-4 mr-4"
+                    style={{ verticalAlign: "middle" }}
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </Link>
+                  <div style={{ color: "#fff", textAlign: "center" }}>
+                    {userLog != null ? (
+                      <div
+                        className={classes.root}
+                        style={{
+                          marginTop: -26,
+                          display: "block",
+                          marginLeft: "90%",
+                        }}
+                      >
+                        <StyledBadge
+                          overlap="circle"
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                          }}
+                          variant="dot"
+                        >
+                          <Avatar
+                            alt={userLog.fullName}
+                            src={
+                              "http://localhost:1337" +
+                              userLog.image[0].formats.thumbnail.url
+                            }
+                            title={userLog.fullName}
+                          />
+                        </StyledBadge>{" "}
+                        <b Style={{ color: "#fff", textAlign: "center" }}>
+                          {userLog.fullName}
+                        </b>
+                        <Badge
+                          overlap="circle"
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                          }}
+                        ></Badge>
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
+                </div>
+              </nav>
             </div>
-          </nav>
+          </div>
 
           <Switch>
             <UserContext.Provider value={{ userLog, setUserLog }}>
-              <Route exact path="/">
+              <Route exact path="/juegos">
                 <Juegos />
               </Route>
               <Route exact path="/login">
@@ -131,6 +159,9 @@ export default function App() {
               </Route>
               <Route path="/dashboard">
                 <Dashboard />
+              </Route>
+              <Route path="/registrar">
+                <Registrar />
               </Route>
             </UserContext.Provider>
           </Switch>
